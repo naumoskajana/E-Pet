@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>E-pet: Потврди вдомување</title>
+    <link th:href="@{/addPet.css}" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+
+<section class="get-in-touch">
+    <h1 class="title">Вдомување</h1>
+    <form class="contact-form row" th:method="POST" th:object="${wantAdopted}" th:action="@{'/profile/confirmation/{petId}/{ownerId}' (petId=${wantAdopted.getId()}, ownerId=${wantToAdopt.getId()})}" enctype="multipart/form-data">
+        <div class="form-field col-lg-6">
+            <input id="name" class="input-text js-input" type="text" name="name" readonly
+                   th:value="${wantAdopted.getName()}">
+            <label class="label" for="name">Име</label>
+        </div>
+        <div class="form-field col-lg-6 ">
+            <input id="ownerName" class="input-text js-input" type="text" name="ownerName" readonly
+                   th:value="${wantToAdopt.getName()}">
+            <label class="label" for="ownerName">Барател</label>
+        </div>
+        <div class="form-field col-lg-6 ">
+            <input id="phone" class="input-text js-input" type="text" name="phone" readonly
+                   th:value="${wantToAdopt.getPhoneNumber()}">
+            <label class="label" for="phone">Телефонски број:</label>
+        </div>
+        <div class="form-field col-lg-6 ">
+            <input id="email" class="input-text js-input" type="text" name="email" readonly
+                   th:value="${wantToAdopt.getEmail()}">
+            <label class="label" for="email">E-mail:</label>
+        </div>
+        <div class="form-field col-lg-6 ">
+            <input id="confirmation1" class="input-text js-input" type="checkbox" name="confirmation" value="true">
+            <label class="label" for="confirmation1">Се согласувам</label>
+        </div>
+        <div class="form-field col-lg-6 ">
+            <input id="confirmation2" class="input-text js-input" type="checkbox" name="confirmation" value="false">
+            <label class="label" for="confirmation2">Не се согласувам</label>
+        </div>
+        <div class="form-field col-lg-12">
+            <input class="submit-btn" type="submit" value="Продолжи" style="margin-right: 390px">
+            <a class="submit-btn" href="/profile/confirmation">Назад</a>
+        </div>
+        <div class="form-field col-lg-12">
+
+        </div>
+    </form>
+</section>
+</body>
+</html>

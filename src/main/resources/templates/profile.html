@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Pet: Мој профил</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link th:href="@{/pets.css}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+</head>
+<body>
+<header>
+    <div class="backimage">
+        <nav>
+            <a href="/lostPets">Изгубени</a>
+            <a href="/adoptPets">Вдоми</a>
+            <div class="dropdown">
+                <button class="dropbtn">Профил<span th:if="${loggedIn==true}">(</span><span th:text="${messages}" th:if="${loggedIn==true}"></span><span th:if="${loggedIn==true}">)</span>
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="/profile">Мои миленици</a>
+                    <a href="/profile/messages">Пораки<span th:if="${loggedIn==true}">(</span><span th:text="${messages}" th:if="${loggedIn==true}"></span><span th:if="${loggedIn==true}">)</span></a>
+                    <a href="/">Chat</a>
+                    <a href="/shopping-cart">Кошничка</a>
+                    <a href="/login" th:if="${loggedIn!=true}">Најави се</a>
+                    <a href="/logout" th:if="${loggedIn==true}">Одјави се</a>
+                </div>
+            </div>
+            <a href="/products">Продавница</a>
+        </nav>
+    </div>
+</header>
+<h2 style="color: #333333">Изгубени миленици:</h2>
+<div class="cards">
+    <div class="card" th:each="pet : ${pets}" th:if="${pet.getType().valueOf(pet.getType().name())==typeLOST.valueOf(typeLOST.name())}">
+        <h2 class="card-title" th:text="${pet.getName()}"></h2>
+        <img th:src="${pet.photosImagePath}">
+        <div class="card-desc">
+            <h3 th:text="${pet.getOwner().getName()}"></h3>
+            <p  th:text="${pet.getDescription()} "></p>
+            <p  th:text="${pet.getLocation()}"></p>
+            <p  th:text="${pet.getPhoneNumber()}"></p>
+            <div class="info" th:onload="'loadMap(\'' + ${pet.getCoordinate1()} + '\',\'' + ${pet.getCoordinate2()} + '\', \'' + ${pet.getId()} + '\');'">
+                <div class="neso" th:id="${pet.getId()}"></div>
+            </div>
+        </div>
+        <a class="uredi" th:href="@{'/lostPet/{petId}' (petId=${pet?.getId()})}" style="text-decoration: none;">Уреди</a>
+        <a class="uredi" th:href="@{'/deletePet/{petId}' (petId=${pet?.getId()})}" style="text-decoration: none;">Избриши</a>
+    </div>
+</div>
+<h2 style="color: #333333">Миленици за вдомување:</h2>
+<div class="cards">
+    <div class="card" th:each="pet : ${adopts}" th:if="${pet.getType().valueOf(pet.getType().name())==typeADOPT.valueOf(typeADOPT.name())}">
+
+        <h2 class="card-title" th:text="${pet.getName()}"></h2>
+        <img th:src="${pet.photosImagePath}">
+        <div class="card-desc">
+            <h3 th:text="${pet.getOwner().getName()}"></h3>
+            <p  th:text="${pet.getDescription()} "></p>
+            <p  th:text="${pet.getLocation()}"></p>
+            <p  th:text="${pet.getPhoneNumber()}"></p>
+        </div>
+        <a class="uredi" th:href="@{'/adoptPet/{petId}' (petId=${pet?.getId()})}" style="text-decoration: none;">Уреди</a>
+        <a class="uredi" th:href="@{'/deleteAdoptPet/{petId}' (petId=${pet?.getId()})}"  style="text-decoration: none;">Избриши</a>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function loadMap(coordinate1,coordinate2,id) {
+        var latlng = new google.maps.LatLng(coordinate1,coordinate2);
+        var myOptions = {
+            zoom: 15,
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        var map = new google.maps.Map(document.getElementById(id),myOptions);
+        var marker = new google.maps.Marker({
+            position: latlng,
+            map: map,
+        });
+    }
+</script>
+<script>
+    $(function(){
+        $('div.info[onload]').trigger('onload')
+
+    });
+</script>
+</body>
+</html>

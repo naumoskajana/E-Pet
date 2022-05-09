@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Pet: Виден миленик</title>
+    <link th:href="@{/addPet.css}" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+</head>
+<body>
+
+<section class="get-in-touch">
+    <h1 class="title">Нова видена локација</h1>
+    <form class="contact-form row" th:method="POST" th:object="${seenPet}" th:action="@{'/profile/seenPets/{petId}' (petId=${seenPet.getId()})}" enctype="multipart/form-data">
+        <div class="form-field col-lg-6">
+            <input id="name" class="input-text js-input" type="text" name="name" readonly
+                   th:value="${seenPet.getLostPet().getName()}">
+            <label class="label" for="name">Име</label>
+        </div>
+        <div class="form-field col-lg-6 ">
+            <input id="date" class="input-text js-input" type="date" name="date" readonly
+                   th:value="${seenPet.getDate()}">
+            <label class="label" for="date">Датум кога е виден миленикот: </label>
+        </div>
+        <div class="form-field col-lg-6 ">
+            <input id="location" class="input-text js-input" type="text" name="location" readonly
+                   th:value="${seenPet.getLocation()}">
+            <label class="label" for="location">Град</label>
+        </div>
+        <div class="form-field col-lg-6 ">
+            <input id="coordinates" class="input-text js-input" type="text" name="coordinates" readonly
+                   th:value="${seenPet.getAddress()}">
+            <label class="label" for="coordinates">Локација</label>
+        </div>
+        <div style="display: inline-block;" class="info" th:onload="'loadMap(\'' + ${seenPet.getCoordinate1()} + '\',\'' + ${seenPet.getCoordinate2()} + '\', \'' + ${seenPet.getLostPet().getId()} + '\');'">
+            <div class="neso" th:id="${seenPet.getLostPet().getId()}"></div>
+        </div>
+        <div class="form-field col-lg-6 ">
+            <input id="confirmation1" class="input-text js-input" type="checkbox" name="confirmation" value="true">
+            <label class="label" for="confirmation1">Ажурирај</label>
+        </div>
+        <div class="form-field col-lg-6 ">
+            <input id="confirmation2" class="input-text js-input" type="checkbox" name="confirmation" value="false">
+            <label class="label" for="confirmation2">Не ажурирај</label>
+        </div>
+        <div class="form-field col-lg-12">
+            <input class="submit-btn" type="submit" value="Зачувај" style="margin-right: 390px">
+            <a class="submit-btn" href="/profile/messages">Назад</a>
+        </div>
+        <div class="form-field col-lg-12">
+
+        </div>
+    </form>
+</section>
+<script type="text/javascript">
+    function loadMap(coordinate1,coordinate2,id) {
+        var latlng = new google.maps.LatLng(coordinate1,coordinate2);
+        var myOptions = {
+            zoom: 15,
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        var map = new google.maps.Map(document.getElementById(id),myOptions);
+        var marker = new google.maps.Marker({
+            position: latlng,
+            map: map,
+        });
+    }
+</script>
+<script>
+    $(function(){
+        $('div.info[onload]').trigger('onload')
+
+    });
+</script>
+</body>
+</html>

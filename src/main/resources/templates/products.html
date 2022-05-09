@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Pet: Продавница</title>
+    <link th:href="@{/products.css}" rel="stylesheet">
+</head>
+<body>
+<header>
+    <div class="backimage">
+        <nav>
+            <a href="/lostPets">Изгубени</a>
+            <a href="/adoptPets">Вдоми</a>
+            <div class="dropdown">
+                <button class="dropbtn">Профил<span th:if="${loggedIn==true}">(</span><span th:text="${messages}" th:if="${loggedIn==true}"></span><span th:if="${loggedIn==true}">)</span>
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="/profile">Мои миленици</a>
+                    <a href="/profile/messages">Пораки<span th:if="${loggedIn==true}">(</span><span th:text="${messages}" th:if="${loggedIn==true}"></span><span th:if="${loggedIn==true}">)</span></a>
+                    <a href="/">Chat</a>
+                    <a href="/shopping-cart">Кошничка</a>
+                    <a href="/login" th:if="${loggedIn!=true}">Најави се</a>
+                    <a href="/logout" th:if="${loggedIn==true}">Одјави се</a>
+                </div>
+            </div>
+            <a href="/products">Продавница</a>
+        </nav>
+    </div>
+</header>
+<div class="container">
+    <div class="card" th:each="p : ${products}">
+        <div class="card-header">
+            <img th:src="${p.getPhoto()}" />
+        </div>
+        <div class="card-body">
+            <h3 th:text="${p.getName()}"></h3>
+            <p th:text="${p.getPrice()}"></p>
+            <div class="user">
+                <form th:method="POST" th:action="@{'/shopping-cart/add-product/{id}' (id=${p.getId()})}">
+                    <button class="bn59" type="submit">Купи</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

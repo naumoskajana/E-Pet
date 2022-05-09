@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Pet: Изгубени миленици</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link th:href="@{/pets.css}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+</head>
+<body>
+<header>
+    <div class="backimage">
+        <nav>
+            <a href="/lostPets">Изгубени</a>
+            <a href="/adoptPets">Вдоми</a>
+            <div class="dropdown">
+                <button class="dropbtn">Профил<span th:if="${loggedIn==true}">(</span><span th:text="${messages}" th:if="${loggedIn==true}"></span><span th:if="${loggedIn==true}">)</span>
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="/profile">Мои миленици</a>
+                    <a href="/profile/messages">Пораки<span th:if="${loggedIn==true}">(</span><span th:text="${messages}" th:if="${loggedIn==true}"></span><span th:if="${loggedIn==true}">)</span></a>
+                    <a href="/">Chat</a>
+                    <a href="/shopping-cart">Кошничка</a>
+                    <a href="/login" th:if="${loggedIn!=true}">Најави се</a>
+                    <a href="/logout" th:if="${loggedIn==true}">Одјави се</a>
+                </div>
+            </div>
+            <a href="/products">Продавница</a>
+        </nav>
+    </div>
+</header>
+<h1 style="color: #333333">Изгубени миленици</h1>
+<form th:method="POST" th:action="@{/lostPets}" style="padding-bottom: 30px">
+    <label>Пребарај:</label><input type="text" th:name="fragment" th:value="(${fragment} != null ? ${fragment} : '')" class="searchi">
+    <input type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Search_Icon.svg/1024px-Search_Icon.svg.png" style="width: 20px; height: 20px;" alt="Submit" value="Search" />
+</form>
+<a class="bn59" href="/lostPet" th:if="${loggedIn==true}">Додади</a>
+
+<div class="cards">
+    <div class="card" th:each="pet : ${pets}" th:if="${pet.getType().valueOf(pet.getType().name())==type.valueOf(type.name())}">
+        <h2 class="card-title" th:text="${pet.getName()}"></h2>
+        <img th:src="${pet.photosImagePath}">
+        <div class="card-desc">
+            <h3 th:text="${pet.getOwner().getName()}"></h3>
+            <p  th:text="${pet.getDescription()} "></p>
+            <p><span th:text="${pet.getAddress()}"></span>, <span th:text="${pet.getLocation()}"></span></p>
+            <p  th:text="${pet.getPhoneNumber()}"></p>
+            <div class="info" th:onload="'loadMap(\'' + ${pet.getCoordinate1()} + '\',\'' + ${pet.getCoordinate2()} + '\', \'' + ${pet.getId()} + '\');'">
+                <div class="neso" th:id="${pet.getId()}"></div>
+            </div>
+
+        </div>
+        <a class="bn59" style="height: 30px; width: 90px;" th:href="@{'/lostPets/seenPet/{petId}' (petId=${pet.getId()})}">Извести</a>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function loadMap(coordinate1,coordinate2,id) {
+        var latlng = new google.maps.LatLng(coordinate1,coordinate2);
+        var myOptions = {
+            zoom: 15,
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        var map = new google.maps.Map(document.getElementById(id),myOptions);
+        var marker = new google.maps.Marker({
+            position: latlng,
+            map: map,
+        });
+    }
+</script>
+<script>
+    $(function(){
+        $('div.info[onload]').trigger('onload')
+
+    });
+</script>
+</body>
+</html>

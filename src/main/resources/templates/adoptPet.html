@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Pet: Миленик за вдомување</title>
+    <link th:href="@{/addPet.css}" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+
+<section class="get-in-touch">
+    <h1 class="title">Додади миленик за вдомување</h1>
+    <form class="contact-form row" th:method="POST" th:object="${adoptPet}" th:action="@{'/adoptPet/{petId}' (petId=${foundAdoptPet?.getId()})}" enctype="multipart/form-data">
+        <div class="form-field col-lg-6">
+            <input id="name" class="input-text js-input" type="text" name="name" required
+                   th:value="(${foundAdoptPet} != null ? ${foundAdoptPet.getName()} : '')">
+            <label class="label" for="name">Име</label>
+        </div>
+        <div class="form-field col-lg-6 ">
+            <input id="phoneNumber" class="input-text js-input" type="text" name="phoneNumber" required
+                   th:value="(${foundAdoptPet} != null ? ${foundAdoptPet.getPhoneNumber()} : '')">
+            <label class="label" for="phoneNumber">Контакт телефон</label>
+        </div>
+        <div class="form-field col-lg-6 ">
+            <input id="location" class="input-text js-input" type="text" name="location" required
+                   th:value="(${foundAdoptPet} != null ? ${foundAdoptPet.getLocation()} : '')">
+            <label class="label" for="location">Град</label>
+        </div>
+        <div class="form-field col-lg-6 ">
+            <select th:if="${foundAdoptPet} != null" id="type" name="type">
+                <option th:if="${foundAdoptPet} != null"
+                        th:selected="${foundAdoptPet.getType()!=null && foundAdoptPet.getType().valueOf(t.name())==t.valueOf(t.name())}"
+                        th:each="t : ${types}"
+                        th:text="${t.valueOf(t.name())}"
+                        th:value="${t.name()}"></option>
+            </select>
+        </div>
+        <div class="form-field col-lg-12">
+            <input id="description" class="input-text js-input" type="text" name="description" required
+                   th:value="(${foundAdoptPet} != null ? ${foundAdoptPet.getDescription()} : '')">
+            <label class="description" for="description">Опис</label>
+        </div>
+        <div class="form-field col-lg-12">
+            <input id="photo" class="choose" type="file" name="image" accept="image/png, image/jpeg" required
+                   th:value="(${foundAdoptPet} != null ? ${foundAdoptPet.photosImagePath} : '')">
+        </div>
+        <div class="form-field col-lg-12">
+            <input class="submit-btn" type="submit" value="Зачувај" style="margin-right: 390px">
+            <a class="submit-btn" href="/adoptPets">Назад</a>
+        </div>
+        <div class="form-field col-lg-12">
+
+        </div>
+    </form>
+</section>
+</body>
+</html>

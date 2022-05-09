@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Pet: Кошничка</title>
+    <link th:href="@{/shopping-cart.css}" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+<header>
+    <div class="backimage">
+        <nav>
+            <a href="/lostPets">Изгубени</a>
+            <a href="/adoptPets">Вдоми</a>
+            <div class="dropdown">
+                <button class="dropbtn">Профил<span th:if="${loggedIn==true}">(</span><span th:text="${messages}" th:if="${loggedIn==true}"></span><span th:if="${loggedIn==true}">)</span>
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="/profile">Мои миленици</a>
+                    <a href="/profile/messages">Пораки<span th:if="${loggedIn==true}">(</span><span th:text="${messages}" th:if="${loggedIn==true}"></span><span th:if="${loggedIn==true}">)</span></a>
+                    <a href="/">Chat</a>
+                    <a href="/shopping-cart">Кошничка</a>
+                    <a href="/login" th:if="${loggedIn!=true}">Најави се</a>
+                    <a href="/logout" th:if="${loggedIn==true}">Одјави се</a>
+                </div>
+            </div>
+            <a href="/products">Продавница</a>
+        </nav>
+    </div>
+</header>
+<div class="container" style="width: 900px;">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="ibox-content" th:each="p : ${products}">
+                <div class="table-responsive">
+                    <table class="table shoping-cart-table">
+                        <tbody>
+                        <tr>
+                            <td width="90" style="padding-right: 10px;">
+                                <img style="height: 100px; width: 100px; object-fit: scale-down;" th:src="${p.getPhoto()}">
+                            </td>
+                            <td class="desc" style="padding-right: 200px;">
+                                <h3 th:text="${p.getName()}"></h3>
+                            </td>
+                            <td width="65" style="padding-right: 200px;">
+                                <span class="form-control" style="height: 20px; width: 20px;" th:text="${p.getQuantity()}"></span>
+                            </td>
+                            <td>
+                                <h4 th:text="${p.getPrice()}"></h4>
+                            </td>
+                            <td><a class="bn59" th:href="@{'/shopping-cart/delete-product/{id}' (id=${p.getId()})}">Избриши</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="col-md-3">
+                <div class="ibox">
+                    <div class="ibox-content">
+                    <span>
+                        Вкупно
+                    </span>
+                        <h2 class="font-bold" th:text="${price}"></h2>
+                        <hr>
+                        <div class="ibox-content">
+                            <a class="btn btn-primary pull-right" th:href="@{'/shopping-cart/checkout/{id}' (id=${shoppingCart.getId()})}"><i class="fa fa fa-shopping-cart"></i> Checkout</a>
+                            <a class="btn btn-white" href="/products"><i class="fa fa-arrow-left"></i> Continue shopping</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

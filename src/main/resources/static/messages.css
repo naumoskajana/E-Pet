@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bree+Serif&family=EB+Garamond:ital,wght@0,500;1,800&display=swap');
+
+blockquote {
+    font-size: 1.1em;
+    line-height: 1.6em;
+    padding: 20px 20px 20px 40px;
+    border-left: none;
+    position: relative;
+    text-indent: -19px
+}
+
+section#block_content {
+    text-align: left
+}
+
+blockquote p {
+    font-size: 1em
+}
+
+blockquote.blockstyle {
+
+    border: 3px solid #f5f5f5;
+    font-style: italic
+}
+
+blockquote.blockstyle {
+    border-left: 3px solid #f0715f;
+    position: relative
+}
+
+.container{
+    margin-top: 30px;
+    margin-left: 50px;
+    margin-bottom: 20px;
+    margin-right: 50px;
+}
+
+header {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+    align-items: center;
+    align-content: space-around;
+}
+
+header nav {
+    font-family: 'Bebas Neue', cursive;
+    position: relative;
+    top: 50%;
+    margin-top: 80px;
+    width: 800px;
+    margin-left: 150px;
+    text-align: center;
+    order: 1;
+    flex: 1 0 auto;
+    overflow: hidden;
+}
+
+nav a{
+    text-decoration: none;
+    color: #333333;
+}
+
+nav a{
+    float: left;
+    /*font-size: 16px;*/
+    text-align: center;
+    padding: 14px 105px 14px 15px;
+}
+
+.dropdown {
+    float: left;
+    overflow: hidden;
+}
+
+/* Dropdown button */
+.dropdown .dropbtn {
+    font-size: 16px;
+    border: none;
+    outline: none;
+    color: #333333;
+    padding: 14px 110px 14px 20px;
+    background-color: inherit;
+    font-family: inherit; /* Important for vertical align on mobile phones */
+    margin: 0; /* Important for vertical align on mobile phones */
+}
+
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+    display: none;
+    position: relative;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+/* Add a grey background color to dropdown links on hover */
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.backimage {
+    background-image: url('https://t3.ftcdn.net/jpg/00/85/32/68/360_F_85326806_k3nKFfDnL7BKZZpgplibILjssleez7za.jpg');
+    background-repeat: no-repeat;
+    width: 1000px;
+    height: 300px;
+    order:2;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+}
+
+html, a{
+    cursor: url(https://cur.cursors-4u.net/nature/nat-8/nat738.cur), auto !important;
+}
+
+.bn59{
+    text-decoration: none;
+    color: #333333;
+    margin: 60px;
+}
+
+.bn59 {
+    background-color: white;
+    border: 1px solid #c93c12;
+    font-weight: 300;
+    position: relative;
+    outline: none;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    height: 30px;
+    width: 70px;
+    opacity: 1;
+    font-family: 'Bebas Neue', cursive;
+    margin: auto;
+}

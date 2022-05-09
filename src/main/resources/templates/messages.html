@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Pet: Пораки</title>
+    <link th:href="@{/messages.css}" rel="stylesheet">
+</head>
+<body>
+<header>
+    <div class="backimage">
+        <nav>
+            <a href="/lostPets">Изгубени</a>
+            <a href="/adoptPets">Вдоми</a>
+            <div class="dropdown">
+                <button class="dropbtn">Профил<span th:if="${loggedIn==true}">(</span><span th:text="${messages}" th:if="${loggedIn==true}"></span><span th:if="${loggedIn==true}">)</span>
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="/profile">Мои миленици</a>
+                    <a href="/profile/messages">Пораки<span th:if="${loggedIn==true}">(</span><span th:text="${messages}" th:if="${loggedIn==true}"></span><span th:if="${loggedIn==true}">)</span></a>
+                    <a href="/">Chat</a>
+                    <a href="/shopping-cart">Кошничка</a>
+                    <a href="/login" th:if="${loggedIn!=true}">Најави се</a>
+                    <a href="/logout" th:if="${loggedIn==true}">Одјави се</a>
+                </div>
+            </div>
+            <a href="/products">Продавница</a>
+        </nav>
+    </div>
+</header>
+<section id="block_content">
+    <div th:each="pet : ${want}">
+        <div class="col-md-6 container" th:each="petOwner : ${pet.getWantToAdopt()}">
+            <blockquote class="blockstyle"><span class="triangle" th:text="${petOwner.getName()}"></span> испрати барање за вдомување на <span class="triangle" th:text="${pet.getName()}"></span><a class="bn59" style="height: 30px; width: 90px; text-decoration: none" th:href="@{'/profile/confirmation/{petId}/{ownerId}' (petId=${pet?.getId()}, ownerId=${petOwner.getId()})}" >Потврди</a></blockquote>
+        </div>
+    </div>
+    <div class="col-md-6 container" th:each="p : ${notAdoptedPets}">
+        <blockquote class="blockstyle">Вашето барање за вдомување на <span class="triangle" th:text="${p.getName()}"></span> беше одбиено.</blockquote>
+    </div>
+    <div class="col-md-6 container" th:each="p : ${adoptedPets}">
+        <blockquote class="blockstyle">Вашето барање за вдомување на <span class="triangle" th:text="${p.getName()}"></span> беше прифатено.</blockquote>
+    </div>
+    <div class="col-md-6 container" th:each="seen : ${seenPets}">
+        <blockquote class="blockstyle">Имате известување за локацијата на <span class="triangle" th:text="${seen.getLostPet().getName()}"></span> во <span class="triangle" th:text="${seen.getSeenTime().getHour()}"></span>:<span class="triangle" th:text="${seen.getSeenTime().getMinute()}"></span> на <span class="triangle" th:text="${seen.getSeenTime().getDayOfMonth()}"></span>.<span class="triangle" th:text="${seen.getSeenTime().getMonthValue()}"></span>.<span class="triangle" th:text="${seen.getSeenTime().getYear()}"></span><a class="bn59" style="font-style: normal; position: center;" th:href="@{'/profile/seenPets/{petId}' (petId=${seen.getId()})}">Види</a></blockquote>
+    </div>
+</section>
+</body>
+</html>
